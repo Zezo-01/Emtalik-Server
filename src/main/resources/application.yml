@@ -1,7 +1,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/real-estate
+    url: jdbc:mysql://localhost:3306/emtalik-database
     username: root
   jpa:
     hibernate:
