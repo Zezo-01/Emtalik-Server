@@ -2,5 +2,5 @@ package org.emtalik.model;
 
 public enum Role 
 {
-	Gest,Buyer,Seller,Admin
+	guest,buyer,seller,admin
 }

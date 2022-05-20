@@ -23,8 +23,8 @@ public class User {
 	@Id
 	@Column(name = "id")
 	private Integer id;
-	@Column(name = "user_name")
-	private String userName;
+	@Column(name = "username")
+	private String username;
 	@Column(name = "first_name")
 	private String firstName;
 	@Column(name = "fathers_name")
@@ -50,7 +50,13 @@ public class User {
 	private String interests;
 
 	public List<String> getInterests() {
-		return List.of(interests.split(","));
+		if(interests == null) {
+			return null;
+		} else {
+			System.out.println("The interests are NOT NULL\n" + interests);
+			return List.of(interests.split(","));
+		}
+		
 	}
 
 }
