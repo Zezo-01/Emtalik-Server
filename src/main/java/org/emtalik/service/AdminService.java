@@ -25,4 +25,17 @@ public class AdminService {
 	public Optional<User> getUserFromId(int id) {
 		return userRepo.findById(id);
 	}
+	public Optional<User> getUserFromUsername(String username){
+		return userRepo.findByUsername(username);
+	}
+	public Optional<User> getUserFromContactNumber(String contactNumber){
+		return userRepo.findByContactNumber(contactNumber);
+	}
+	public Optional<User> getUserFromEmail(String email){
+		return userRepo.findByEmail(email);
+	}
+	public boolean validateUser(int id,String password){
+		// TODO: CHECK HERE
+		return userRepo.findByIdAndPassword(id,password).isPresent();
+	}
 }

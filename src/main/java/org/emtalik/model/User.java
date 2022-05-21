@@ -53,7 +53,6 @@ public class User {
 		if(interests == null) {
 			return null;
 		} else {
-			System.out.println("The interests are NOT NULL\n" + interests);
 			return List.of(interests.split(","));
 		}
 		
