@@ -35,7 +35,6 @@ public class AdminService {
 		return userRepo.findByEmail(email);
 	}
 	public boolean validateUser(int id,String password){
-		// TODO: CHECK HERE
 		return userRepo.findByIdAndPassword(id,password).isPresent();
 	}
 }

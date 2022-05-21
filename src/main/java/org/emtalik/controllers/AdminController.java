@@ -12,12 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @RestController
@@ -27,7 +25,7 @@ public class AdminController {
 	@Autowired
 	AdminService adminService;
 
-    @PostMapping("/validate/")
+    @PostMapping("/validate")
     public UserProvider validate(@RequestParam String id,@RequestParam String password) {
 		if(id == null || password == null || id.isEmpty() || password.isEmpty())
 		{
@@ -59,7 +57,7 @@ public class AdminController {
 			User user = adminService.getUserFromEmail(id).orElse(null);
 			if(user == null)
 			{
-				throw new ApiRequestException("Invalid Contact Number",HttpStatus.NOT_FOUND);
+				throw new ApiRequestException("Invalid Email",HttpStatus.NOT_FOUND);
 			}
 			else 
 			{
@@ -73,7 +71,7 @@ public class AdminController {
 				 }
 			}
 		}
-		//  USER CASE
+		//  USERNAME CASE
 		else 
 		{
 			User user = adminService.getUserFromUsername(id).orElse(null);
