@@ -25,74 +25,83 @@ public class AdminController {
 	@Autowired
 	AdminService adminService;
 
-    @PostMapping("/validate")
-    public UserProvider validate(@RequestParam String id,@RequestParam String password) {
-		if(id == null || password == null || id.isEmpty() || password.isEmpty())
-		{
-			throw new ApiRequestException("Empty Parameters",HttpStatus.BAD_REQUEST);
-		
-		} 
-		else if (Pattern.compile("[0-9]{9,15}").matcher(id).matches())
-		{
-			User user = adminService.getUserFromContactNumber(id).orElse(null);
-			if(user == null)
-			{
-				throw new ApiRequestException("Invalid Contact Number",HttpStatus.NOT_FOUND);
-			}
-			else 
-			{
-				 if(adminService.validateUser(user.getId(), password))
-				 {
-					 return UserProvider.copyUser(user);
-				 } 
-				 else 
-				 {
-					throw new ApiRequestException("Invalid Password",HttpStatus.UNAUTHORIZED);
-				 }
-			}
-		} 
-		// EMAIL CASE
-		else if(Pattern.compile("^(.+)@(\\S+)$").matcher(id).matches())
-		{
-			User user = adminService.getUserFromEmail(id).orElse(null);
-			if(user == null)
-			{
-				throw new ApiRequestException("Invalid Email",HttpStatus.NOT_FOUND);
-			}
-			else 
-			{
-				 if(adminService.validateUser(user.getId(), password))
-				 {
-					return UserProvider.copyUser(user);
-				 } 
-				 else 
-				 {
-					throw new ApiRequestException("Invalid Password",HttpStatus.UNAUTHORIZED);
-				 }
+	@PostMapping("/unique/username")
+	public Object checkUserNameValide(@RequestParam String username) {
+		List<User> users = adminService.getUsers();
+		for (User user : users) {
+			if (user.getUsername().equals(username)) {
+				throw new ApiRequestException("Username Taken", HttpStatus.NOT_ACCEPTABLE);
 			}
 		}
-		//  USERNAME CASE
-		else 
-		{
-			User user = adminService.getUserFromUsername(id).orElse(null);
-			if(user == null)
-			{
-				throw new ApiRequestException("Invalid Username",HttpStatus.NOT_FOUND);
-			}
-			else 
-			{
-				 if(adminService.validateUser(user.getId(), password))
-				 {
-					 return UserProvider.copyUser(user);
-				 } 
-				 else 
-				 {
-					throw new ApiRequestException("Invalid Password",HttpStatus.UNAUTHORIZED);
-				 }
-			}	
-		}
-    }
+		return null;
+	}
 
+	@PostMapping("/unique/email")
+	public Object checkEmailValide(@RequestParam String email) {
+		List<User> users = adminService.getUsers();
+		for (User user : users) {
+			if (user.getEmail().equals(email)) {
+				throw new ApiRequestException("Email Taken", HttpStatus.NOT_ACCEPTABLE);
+			}
+		}
+		return null;
+	}
+
+	@PostMapping("/unique/contactnumber")
+	public Object checkContactNumberValide(@RequestParam String contactNumber) {
+		List<User> users = adminService.getUsers();
+		for (User user : users) {
+			if (user.getContactNumber().equals(contactNumber)) {
+				throw new ApiRequestException("Contact Number Taken", HttpStatus.NOT_ACCEPTABLE);
+			}
+		}
+		return null;
+	}
+
+	@PostMapping("/validate")
+	public UserProvider validate(@RequestParam String id, @RequestParam String password) {
+		if (id == null || password == null || id.isEmpty() || password.isEmpty()) {
+			throw new ApiRequestException("Empty Parameters", HttpStatus.BAD_REQUEST);
+
+		} else if (Pattern.compile("[0-9]{9,15}").matcher(id).matches()) {
+			User user = adminService.getUserFromContactNumber(id).orElse(null);
+			if (user == null) {
+				throw new ApiRequestException("Invalid Contact Number", HttpStatus.NOT_FOUND);
+			} else {
+				if (adminService.validateUser(user.getId(), password)) {
+					return UserProvider.copyUser(user);
+				} else {
+					throw new ApiRequestException("Invalid Password", HttpStatus.UNAUTHORIZED);
+				}
+			}
+		}
+		// EMAIL CASE
+		else if (Pattern.compile("^(.+)@(\\S+)$").matcher(id).matches()) {
+			User user = adminService.getUserFromEmail(id).orElse(null);
+			if (user == null) {
+				throw new ApiRequestException("Invalid Email", HttpStatus.NOT_FOUND);
+			} else {
+				if (adminService.validateUser(user.getId(), password)) {
+					return UserProvider.copyUser(user);
+				} else {
+					throw new ApiRequestException("Invalid Password", HttpStatus.UNAUTHORIZED);
+				}
+			}
+		}
+		// USERNAME CASE
+		else {
+			User user = adminService.getUserFromUsername(id).orElse(null);
+			if (user == null) {
+				throw new ApiRequestException("Invalid Username", HttpStatus.NOT_FOUND);
+			} else {
+				if (adminService.validateUser(user.getId(), password)) {
+					return UserProvider.copyUser(user);
+				} else {
+					throw new ApiRequestException("Invalid Password", HttpStatus.UNAUTHORIZED);
+				}
+			}
+		}
+	}
 
 	@GetMapping("/users")
 	public List<User> getUsers() {

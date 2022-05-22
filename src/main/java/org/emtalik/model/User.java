@@ -48,7 +48,6 @@ public class User {
 	private Integer reports;
 	@Column(name = "interests")
 	private String interests;
-
 	public List<String> getInterests() {
 		if(interests == null) {
 			return null;
