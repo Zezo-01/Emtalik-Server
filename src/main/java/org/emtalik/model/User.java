@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -48,13 +50,33 @@ public class User {
 	private Integer reports;
 	@Column(name = "interests")
 	private String interests;
+	@OneToOne
+    @JoinColumn(
+        name = "picture_id",
+        referencedColumnName = "id"
+        )
+    private ProfilePicture picture;
+
 	public List<String> getInterests() {
-		if(interests == null) {
+		if (interests == null) {
 			return null;
 		} else {
 			return List.of(interests.split(","));
 		}
-		
+
 	}
 
+	public void setInterests(List<String> interests) {
+		String finalValue = "";
+		for (int i = 0; i < interests.size(); i++) {
+			if(i != interests.size()- 1){
+				finalValue += interests.get(i) + " ,";
+			} else {
+				finalValue += interests.get(i);
+			}
+		}
+		this.interests = finalValue;
+
+	}
+	
 }

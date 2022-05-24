@@ -3,7 +3,9 @@ package org.emtalik.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.emtalik.dao.ProfilePictureRepo;
 import org.emtalik.dao.UsersRepo;
+import org.emtalik.model.ProfilePicture;
 import org.emtalik.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,10 +14,12 @@ import org.springframework.stereotype.Service;
 public class AdminService {
 
 	private final UsersRepo userRepo;
+	private final ProfilePictureRepo profilePictureRepo;
 
 	@Autowired
-	AdminService(UsersRepo userRepo) {
+	AdminService(UsersRepo userRepo, ProfilePictureRepo profilePictureRepo) {
 		this.userRepo = userRepo;
+		this.profilePictureRepo = profilePictureRepo;
 	}
 
 	public List<User> getUsers() {
@@ -36,5 +40,11 @@ public class AdminService {
 	}
 	public boolean validateUser(int id,String password){
 		return userRepo.findByIdAndPassword(id,password).isPresent();
+	}
+	public List<ProfilePicture> getProfilePictures(){
+		return profilePictureRepo.findAll();
+	}
+	public void saveProfilePicture(ProfilePicture picture){
+		profilePictureRepo.save(picture);
 	}
 }

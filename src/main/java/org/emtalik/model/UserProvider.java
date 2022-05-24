@@ -11,10 +11,13 @@ import lombok.Data;
 public class UserProvider 
 {
     private int id;
+    private String username;
     private Role role;
     private List<String> interests;
+    private byte[] profilePicture;
+    
 
     public static UserProvider copyUser(User user){
-        return new UserProvider(user.getId(), user.getRole(), user.getInterests());
+        return new UserProvider(user.getId(), user.getUsername(),user.getRole(), user.getInterests(), user.getPicture().getContent());
     }
 }

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.emtalik.exception.ApiRequestException;
+import org.emtalik.model.ProfilePicture;
 import org.emtalik.model.User;
 import org.emtalik.model.UserProvider;
 import org.emtalik.service.AdminService;
@@ -113,5 +114,14 @@ public class AdminController {
 	public Optional<User> getUser(@PathVariable int id) {
 
 		return adminService.getUserFromId(id);
+	}
+
+	@GetMapping("/profilepictures")
+	public List<ProfilePicture> getProfilePictures(){
+		return adminService.getProfilePictures();
+	}
+	@PostMapping("/save/profilepicture")
+	public void saveProfilePicture(ProfilePicture picture){
+		 adminService.saveProfilePicture(picture);
 	}
 }
