@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,6 +28,14 @@ import java.util.regex.Pattern;
 public class AdminController {
 	@Autowired
 	AdminService adminService;
+
+	@PostMapping("/register")
+	public UserProvider registerUser(@RequestParam String user ,@RequestParam MultipartFile picture)
+	{
+		System.out.println(user);
+		System.out.println(picture.getContentType());
+		return null;
+	}
 
 	@PostMapping("/unique/username")
 	public Object checkUserNameValide(@RequestParam String username) {

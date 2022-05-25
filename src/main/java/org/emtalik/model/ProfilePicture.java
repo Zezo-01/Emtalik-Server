@@ -33,6 +33,6 @@ public class ProfilePicture {
         this.contentType = file.getContentType();
     }
 
-
+    
 
 }

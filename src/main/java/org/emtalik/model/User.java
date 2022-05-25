@@ -4,10 +4,12 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -55,7 +57,7 @@ public class User {
 	private Integer reports;
 	@Column(name = "interests")
 	private String interests;
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "picture_id", referencedColumnName = "id")
 	private ProfilePicture picture;
 
@@ -83,6 +85,8 @@ public class User {
 
 	public void setPicture(MultipartFile picture) throws IOException {
 		this.picture = new ProfilePicture(picture);
+		
+
 	}
 
 	public byte[] getPicture() {
