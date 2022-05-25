@@ -1,5 +1,6 @@
 package org.emtalik.service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,7 +45,8 @@ public class AdminService {
 	public List<ProfilePicture> getProfilePictures(){
 		return profilePictureRepo.findAll();
 	}
-	public void saveProfilePicture(ProfilePicture picture){
+	public void saveProfilePicture(ProfilePicture picture) throws IOException{
+
 		profilePictureRepo.save(picture);
 	}
 }

@@ -1,5 +1,6 @@
 package org.emtalik.model;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -7,10 +8,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +27,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 public class User {
 	@Id
+	@GeneratedValue
 	@Column(name = "id")
 	private Integer id;
 	@Column(name = "username")
@@ -51,11 +56,8 @@ public class User {
 	@Column(name = "interests")
 	private String interests;
 	@OneToOne
-    @JoinColumn(
-        name = "picture_id",
-        referencedColumnName = "id"
-        )
-    private ProfilePicture picture;
+	@JoinColumn(name = "picture_id", referencedColumnName = "id")
+	private ProfilePicture picture;
 
 	public List<String> getInterests() {
 		if (interests == null) {
@@ -69,7 +71,7 @@ public class User {
 	public void setInterests(List<String> interests) {
 		String finalValue = "";
 		for (int i = 0; i < interests.size(); i++) {
-			if(i != interests.size()- 1){
+			if (i != interests.size() - 1) {
 				finalValue += interests.get(i) + " ,";
 			} else {
 				finalValue += interests.get(i);
@@ -78,5 +80,18 @@ public class User {
 		this.interests = finalValue;
 
 	}
-	
+
+	public void setPicture(MultipartFile picture) throws IOException {
+		this.picture = new ProfilePicture(picture);
+	}
+
+	public byte[] getPicture() {
+		if(picture == null){
+			return null;
+		} else {
+			return picture.getContent();
+		}
+		
+	}
+
 }

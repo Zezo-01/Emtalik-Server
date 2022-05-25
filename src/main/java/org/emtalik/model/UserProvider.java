@@ -14,10 +14,10 @@ public class UserProvider
     private String username;
     private Role role;
     private List<String> interests;
-    private byte[] profilePicture;
+    private byte[] picture;
     
 
     public static UserProvider copyUser(User user){
-        return new UserProvider(user.getId(), user.getUsername(),user.getRole(), user.getInterests(), user.getPicture().getContent());
+        return new UserProvider(user.getId(), user.getUsername(),user.getRole(), user.getInterests(), user.getPicture());
     }
 }

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.regex.Pattern;
 
 @RestController
@@ -121,7 +123,17 @@ public class AdminController {
 		return adminService.getProfilePictures();
 	}
 	@PostMapping("/save/profilepicture")
-	public void saveProfilePicture(ProfilePicture picture){
-		 adminService.saveProfilePicture(picture);
+	public void saveProfilePicture(@RequestParam MultipartFile picture){
+		try
+		{
+			adminService.saveProfilePicture(new ProfilePicture (picture));
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+			throw new ApiRequestException("Error occured",HttpStatus.BAD_REQUEST);
+			
+		}
+		 
 	}
 }
