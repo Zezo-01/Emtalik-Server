@@ -42,11 +42,8 @@ public class AdminService {
 	public boolean validateUser(int id,String password){
 		return userRepo.findByIdAndPassword(id,password).isPresent();
 	}
-	public List<ProfilePicture> getProfilePictures(){
-		return profilePictureRepo.findAll();
-	}
-	public void saveProfilePicture(ProfilePicture picture) throws IOException{
-
-		profilePictureRepo.save(picture);
+	
+	public void saveUser(User user){
+		userRepo.save(user);
 	}
 }

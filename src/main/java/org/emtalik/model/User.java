@@ -89,13 +89,5 @@ public class User {
 
 	}
 
-	public byte[] getPicture() {
-		if(picture == null){
-			return null;
-		} else {
-			return picture.getContent();
-		}
-		
-	}
 
 }

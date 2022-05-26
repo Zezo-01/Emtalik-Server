@@ -18,6 +18,6 @@ public class UserProvider
     
 
     public static UserProvider copyUser(User user){
-        return new UserProvider(user.getId(), user.getUsername(),user.getRole(), user.getInterests(), user.getPicture());
+        return new UserProvider(user.getId(), user.getUsername(),user.getRole(), user.getInterests(), user.getPicture().getContent());
     }
 }

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.emtalik.exception.ApiRequestException;
 import org.emtalik.model.ProfilePicture;
+import org.emtalik.model.Role;
 import org.emtalik.model.User;
 import org.emtalik.model.UserProvider;
 import org.emtalik.service.AdminService;
@@ -21,6 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.regex.Pattern;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 @RestController
 @RequestMapping(path = "/admin", produces = "application/json")
 @ResponseBody
@@ -29,13 +32,30 @@ public class AdminController {
 	AdminService adminService;
 
 	@PostMapping("/register")
-	public UserProvider registerUser(@RequestParam String user ,@RequestParam(required = false) MultipartFile picture)
+	public UserProvider registerUser(@RequestParam String userJson ,@RequestParam(required = false) MultipartFile picture)
 	{
-		System.out.println(user);
-		if(picture != null){
-			System.out.println(picture.getContentType());
+		ObjectMapper objectMapper = new ObjectMapper();
+		User user;
+		try
+		{
+			user = objectMapper.readValue(userJson, User.class);
+			System.out.println(user.toString());
+			if(picture != null && picture.getContentType().split("/")[0].equals("image")){
+				user.setPicture(picture);
+			} 
+			if(user.getFirstName()!= null && user.getFathersName() != null&& user.getGrandfathersName() != null&& user.getSurName() != null){
+				user.setRole(Role.seller);
+			} else{
+				user.setRole(Role.buyer);
+			}
+			adminService.saveUser(user);
+			return UserProvider.copyUser(user);
 		}
-		return null;
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+			throw new ApiRequestException("Internal Error" , HttpStatus.INTERNAL_SERVER_ERROR);
+		}		
 	}
 
 	@PostMapping("/unique/username")
@@ -128,22 +148,7 @@ public class AdminController {
 		return adminService.getUserFromId(id);
 	}
 
-	@GetMapping("/profilepictures")
-	public List<ProfilePicture> getProfilePictures(){
-		return adminService.getProfilePictures();
-	}
-	@PostMapping("/save/profilepicture")
-	public void saveProfilePicture(@RequestParam MultipartFile picture){
-		try
-		{
-			adminService.saveProfilePicture(new ProfilePicture (picture));
-		}
-		catch(Exception e)
-		{
-			System.out.println(e.getMessage());
-			throw new ApiRequestException("Error occured",HttpStatus.BAD_REQUEST);
-			
-		}
+	
 		 
-	}
+	
 }
