@@ -1,12 +1,9 @@
 package org.emtalik.service;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import org.emtalik.dao.ProfilePictureRepo;
 import org.emtalik.dao.UsersRepo;
-import org.emtalik.model.ProfilePicture;
 import org.emtalik.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +12,10 @@ import org.springframework.stereotype.Service;
 public class AdminService {
 
 	private final UsersRepo userRepo;
-	private final ProfilePictureRepo profilePictureRepo;
 
 	@Autowired
-	AdminService(UsersRepo userRepo, ProfilePictureRepo profilePictureRepo) {
+	AdminService(UsersRepo userRepo) {
 		this.userRepo = userRepo;
-		this.profilePictureRepo = profilePictureRepo;
 	}
 
 	public List<User> getUsers() {

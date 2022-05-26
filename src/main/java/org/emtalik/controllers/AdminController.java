@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.emtalik.exception.ApiRequestException;
-import org.emtalik.model.ProfilePicture;
 import org.emtalik.model.Role;
 import org.emtalik.model.User;
 import org.emtalik.model.UserProvider;
