@@ -46,7 +46,7 @@ public class User {
 	private String email;
 	@Column(name = "password")
 	private String password;
-	@Column(name = "made_on")
+	@Column(name = "made_on", insertable = false)
 	private Timestamp madeOn;
 	@Column(name = "contact_number")
 	private String contactNumber;
@@ -61,20 +61,19 @@ public class User {
 	@JoinColumn(name = "picture_id", referencedColumnName = "id")
 	private ProfilePicture picture;
 
-	public List<String> getInterests() {
-		if (interests == null) {
-			return null;
-		} else {
-			return List.of(interests.split(","));
-		}
-
-	}
+	// public List<String> getInterests() {
+	// 	if (interests == null) {
+	// 		return null;
+	// 	} else {
+	// 		return List.of(interests.split(","));
+	// 	}
+	// }
 
 	public void setInterests(List<String> interests) {
 		String finalValue = "";
 		for (int i = 0; i < interests.size(); i++) {
 			if (i != interests.size() - 1) {
-				finalValue += interests.get(i) + " ,";
+				finalValue += interests.get(i) + ",";
 			} else {
 				finalValue += interests.get(i);
 			}

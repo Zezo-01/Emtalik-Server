@@ -38,17 +38,22 @@ public class AdminController {
 		try
 		{
 			user = objectMapper.readValue(userJson, User.class);
-			System.out.println(user.toString());
-			if(picture != null && picture.getContentType().split("/")[0].equals("image")){
+			if(picture != null && picture.getContentType().split("/")[0].equals("image"))
+			{
 				user.setPicture(picture);
 			} 
-			if(user.getFirstName()!= null && user.getFathersName() != null&& user.getGrandfathersName() != null&& user.getSurName() != null){
+			if(user.getFirstName()!= null && user.getFathersName() != null&& user.getGrandfathersName() != null && user.getSurName() != null)
+			{
 				user.setRole(Role.seller);
-			} else{
+			} 
+			else
+			{
 				user.setRole(Role.buyer);
 			}
-			adminService.saveUser(user);
-			return UserProvider.copyUser(user);
+			
+			return UserProvider.copyUser(adminService.saveUser(user));
+			
+			
 		}
 		catch(Exception e)
 		{

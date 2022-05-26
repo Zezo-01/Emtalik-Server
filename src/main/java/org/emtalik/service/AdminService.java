@@ -38,7 +38,7 @@ public class AdminService {
 		return userRepo.findByIdAndPassword(id,password).isPresent();
 	}
 	
-	public void saveUser(User user){
-		userRepo.save(user);
+	public User saveUser(User user){
+		return userRepo.save(user);
 	}
 }
