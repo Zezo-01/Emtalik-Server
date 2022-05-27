@@ -11,9 +11,11 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -29,7 +31,14 @@ import lombok.NoArgsConstructor;
 @Table(name = "users")
 public class User {
 	@Id
+	@SequenceGenerator
+	(name = "user_sequence",
+	sequenceName = "user_sequence",
+	allocationSize = 1,
+	initialValue = 1)
 	@GeneratedValue
+	(strategy = GenerationType.SEQUENCE, 
+	generator = "user_sequence")
 	@Column(name = "id")
 	private Integer id;
 	@Column(name = "username")
