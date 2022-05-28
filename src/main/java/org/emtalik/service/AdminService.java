@@ -3,7 +3,7 @@ package org.emtalik.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.emtalik.dao.UsersRepo;
+import org.emtalik.Repositroy.UsersRepo;
 import org.emtalik.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,4 +41,7 @@ public class AdminService {
 	public User saveUser(User user){
 		return userRepo.save(user);
 	}
+	
+
+	
 }

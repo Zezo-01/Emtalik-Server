@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,10 +24,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping(path = "/admin", produces = "application/json")
-@ResponseBody
 public class AdminController {
 	@Autowired
 	AdminService adminService;
+
+	
 
 	@PostMapping("/register")
 	public UserProvider registerUser(@RequestParam String userJson ,@RequestParam(required = false) MultipartFile picture)
@@ -40,13 +40,9 @@ public class AdminController {
 			user = objectMapper.readValue(userJson, User.class);
 			if(picture != null && picture.getContentType().split("/")[0].equals("image"))
 			{
+				System.out.println(picture.getBytes());
 				user.setPicture(picture);
 			} 
-			if(user.getFirstName()!= null && user.getFathersName() != null&& user.getGrandfathersName() != null && user.getSurName() != null)
-			{
-				user.setRole(Role.seller);
-			} 
-			else
 			{
 				user.setRole(Role.buyer);
 			}

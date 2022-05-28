@@ -66,7 +66,7 @@ public class User {
 	private Integer reports;
 	@Column(name = "interests")
 	private String interests;
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER,orphanRemoval = true)
 	@JoinColumn(name = "picture_id", referencedColumnName = "id")
 	private ProfilePicture picture;
 
