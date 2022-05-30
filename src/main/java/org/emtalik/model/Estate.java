@@ -19,7 +19,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
-import org.hibernate.type.TrueFalseType;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
