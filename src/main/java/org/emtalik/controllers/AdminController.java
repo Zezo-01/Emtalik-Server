@@ -10,7 +10,6 @@ import org.emtalik.model.UserProvider;
 import org.emtalik.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,11 +28,7 @@ public class AdminController {
 	@Autowired
 	AdminService adminService;
 
-	@DeleteMapping("/user/{id}")
-	public void deleteUser(@PathVariable int id){
-		adminService.deleteUser(id);
-	}
-
+	
 	@PostMapping("/register")
 	public UserProvider registerUser(@RequestParam String userJson ,@RequestParam(required = false) MultipartFile picture)
 	{
