@@ -15,5 +15,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Land extends Estate{
     @Column(name= "city_hall_electricity_support")
-    boolean cityHallElectricitySupport;
+    private boolean cityHallElectricitySupport;
 }

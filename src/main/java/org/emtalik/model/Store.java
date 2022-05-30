@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Store extends Estate{
     @Column(length = 2)
-    int fridges;
+    private int fridges;
     @Column(name = "storage_room")
-    boolean storageRoom;
+    private boolean storageRoom;
 }

@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Apartment extends Estate {
     @Column(length = 3)
-    int apartmentFloorNumber;
+    private int apartmentFloorNumber;
     @Column(length = 4)
-    int apartmentNumber;
+    private int apartmentNumber;
 }

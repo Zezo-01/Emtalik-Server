@@ -1,16 +1,26 @@
 package org.emtalik.model;
 
+import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+
+import org.hibernate.type.TrueFalseType;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,8 +42,18 @@ public class Estate {
 	(strategy = GenerationType.SEQUENCE, 
 	generator = "estate_sequence")
     private int id;
-    // @ManyToOne
-    // private User user;
+   
+    @ManyToOne(
+        cascade = CascadeType.ALL,
+        fetch = FetchType.EAGER,
+        optional = false
+    )
+    @JoinColumn(
+        name = "owner_id",
+        referencedColumnName = "id"
+    )
+    private User owner;
+    
     @Column(length = 35)
     private String name;
     @Column(length = 45)
@@ -44,5 +64,32 @@ public class Estate {
     private Double size;
     @Column(name = "made_on", insertable = false)
 	private Timestamp madeOn;
+    private boolean approved;
+    @OneToOne(
+        cascade = CascadeType.ALL,
+        optional = false,
+        fetch = FetchType.LAZY,
+        orphanRemoval = true
+    )
+    @JoinColumn(
+        referencedColumnName = "picture_id",
+        name = "id"
+    )
+    private EstateMainPicture mainPicture;
+    @OneToMany(
+        mappedBy = "estate", 
+        orphanRemoval = true,
+        cascade = CascadeType.ALL,
+        fetch = FetchType.LAZY
+    )
+    private List<EstateMedia> media;
+
+    public void setMainPicture(EstateMainPicture picture){
+        this.mainPicture = picture;
+    }
+
+    public void setMainPicture(MultipartFile picture) throws IOException{
+        this.mainPicture = new EstateMainPicture(picture);
+    }
 
 }

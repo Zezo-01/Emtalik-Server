@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -40,35 +41,47 @@ public class User {
 	(strategy = GenerationType.SEQUENCE, 
 	generator = "user_sequence")
 	@Column(name = "id")
-	private Integer id;
-	@Column(name = "username")
+	private int id;
+	@Column(name = "username", length = 25)
 	private String username;
-	@Column(name = "first_name")
+	@Column(name = "first_name", length = 15)
 	private String firstName;
-	@Column(name = "fathers_name")
+	@Column(name = "fathers_name", length = 15)
 	private String fathersName;
-	@Column(name = "grandfathers_name")
+	@Column(name = "grandfathers_name", length = 15)
 	private String grandfathersName;
-	@Column(name = "sur_name")
+	@Column(name = "sur_name", length = 15)
 	private String surName;
-	@Column(name = "email")
+	@Column(name = "email", length = 45)
 	private String email;
-	@Column(name = "password")
+	@Column(name = "password", length = 45)
 	private String password;
 	@Column(name = "made_on", insertable = false)
 	private Timestamp madeOn;
-	@Column(name = "contact_number")
+	@Column(name = "contact_number", length = 15)
 	private String contactNumber;
 	@Enumerated(EnumType.STRING)
 	@Column(name = "role")
 	private Role role;
-	@Column(name = "reports")
-	private Integer reports;
 	@Column(name = "interests")
 	private String interests;
-	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER,orphanRemoval = true)
-	@JoinColumn(name = "picture_id", referencedColumnName = "id")
+	@OneToOne(
+		cascade = CascadeType.ALL,
+		fetch = FetchType.LAZY,
+		orphanRemoval = true
+	)
+	@JoinColumn(
+		name = "picture_id",
+		referencedColumnName = "id"
+	)
 	private ProfilePicture picture;
+	@OneToMany(
+		fetch = FetchType.LAZY,
+		cascade = CascadeType.ALL,
+		mappedBy = "owner",
+		orphanRemoval = true
+	)
+	private List<Estate> ownedEstates;
 
 	// public List<String> getInterests() {
 	// 	if (interests == null) {
@@ -93,7 +106,10 @@ public class User {
 
 	public void setPicture(MultipartFile picture) throws IOException {
 		this.picture = new ProfilePicture(picture);
-		
+
+	}
+	public void setPicture(ProfilePicture picture) throws IOException {
+		this.picture = picture;
 
 	}
 

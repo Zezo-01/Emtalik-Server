@@ -14,38 +14,37 @@ import javax.persistence.Table;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Entity
-@Table(name = "profile_pictures")
+@Data
 @NoArgsConstructor
-public class ProfilePicture {
+@AllArgsConstructor
+@Table(name = "estate_main_pictures")
+public class EstateMainPicture 
+{
     @Id
     @SequenceGenerator
-	(name = "profile_picture_sequence",
-	sequenceName = "profile_picture_sequence",
+	(name = "estate_picture_sequence",
+	sequenceName = "estate_picture_sequence",
 	allocationSize = 1,
 	initialValue = 1)
 	@GeneratedValue
 	(strategy = GenerationType.SEQUENCE, 
-	generator = "profile_picture_sequence")
-    private Integer id;
+	generator = "estate_picture_sequence")
+    private int id;
+    @Column
+    @Lob
+    private byte[] content;
     @Column(name = "content_type", length = 25)
     private String contentType;
-    @Lob
-    @Column(name = "content")
-    private byte[] content;
+    @OneToOne(mappedBy = "mainPicture")
+    private Estate estate;
 
-    @OneToOne(mappedBy = "picture")
-    private User user;
-
-    public ProfilePicture(MultipartFile file) throws IOException {
-        this.content = file.getBytes();
-        this.contentType = file.getContentType();
+    public EstateMainPicture(MultipartFile picture) throws IOException {
+        this.content = picture.getBytes();
+        this.contentType = picture.getContentType();
     }
-
-    
-
 }
