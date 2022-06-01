@@ -63,7 +63,7 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "role")
 	private Role role;
-	@Column(name = "interests")
+	@Column(name = "interests",columnDefinition = "SET(\"apartment\",\"house\",\"parking\",\"store\",\"land\")")
 	private String interests;
 	@OneToOne(
 		cascade = CascadeType.ALL,
@@ -101,6 +101,7 @@ public class User {
 			}
 		}
 		this.interests = finalValue;
+		
 
 	}
 

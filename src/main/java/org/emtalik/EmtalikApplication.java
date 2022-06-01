@@ -11,7 +11,7 @@ public class EmtalikApplication {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context =
 		 	SpringApplication.run(EmtalikApplication.class, args);
-		
+		// TODO: IMPLEMENT SEEDERS
 
 	}
 
