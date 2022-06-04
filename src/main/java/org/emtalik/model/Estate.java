@@ -92,5 +92,9 @@ public class Estate {
     public void setMainPictureWithFile(MultipartFile picture) throws IOException{
         this.mainPicture = new EstateMainPicture(picture);
     }
+    public void setMedia(List<EstateMedia> media){
+        this.media = media;
+    }
+   
 
 }

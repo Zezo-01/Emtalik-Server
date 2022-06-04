@@ -1,9 +1,15 @@
 package org.emtalik.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.emtalik.exception.ApiRequestException;
 import org.emtalik.model.Estate;
+import org.emtalik.model.EstateMedia;
 import org.emtalik.model.House;
 import org.emtalik.model.Parking;
+import org.emtalik.service.AdminService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,44 +23,64 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RestController
 @RequestMapping(path = "/estate", produces = "application/json")
 public class EstateController {
-    // Estate JSON FIRST
+
+
+    @Autowired
+    AdminService adminService;
+
     @PostMapping(path= "/create")
-    public void createEstate(@RequestParam String estateJson,@RequestParam String type ,@RequestParam int id, @RequestParam(required = false) MultipartFile estateMainPicture, @RequestParam(required = false) MultipartFile[] estateMedia)
+    public void createEstate(@RequestParam String estateJson,@RequestParam String type ,@RequestParam int userId, @RequestParam MultipartFile estateMainPicture, @RequestParam(required = false) List<MultipartFile> estateMedia)
     {
-       
+        
         ObjectMapper objectMapper = new ObjectMapper();
         try
         {
             if(type.equals("house")){
                 House house = objectMapper.readValue(estateJson, House.class);
-                System.out.println("Estate :\n" +  "Content Type : " + estateMainPicture.getContentType() + "\t Name : "  + estateMainPicture.getOriginalFilename());
+                house.setMainPictureWithFile(estateMainPicture);
+                List<EstateMedia> media = new ArrayList<EstateMedia>();
+                for(MultipartFile mf: estateMedia){
+                    media.add(new EstateMedia(mf));
+                }
+                house.setMedia(media);
+                house.setOwner(adminService.getUserFromId(userId).get());
+                
+                
+               
+
+                // for(EstateMedia em : house.getMedia()){
+                //     System.out.println("2 : " + em.getContentType());
+                // }
+                           
+                // System.out.println("Estate :\n" +  "Content Type : " + house.getMainPicture().getContentType() + "\t");
+               
+                // System.out.println("EstateMedia :\n" );
+                //     for(MultipartFile em : estateMedia){
+                //         System.out.println("Content Type : " + em.getContentType());
+                //     }
                
                 // HOUSE BS
             } 
-            
-        //  System.out.println("Estate Main Picture :\n" + estateMainPicture.getContentType());
-        //  for(MultipartFile media : estateMedia){
-        //         System.out.println("Estate Media : \n" + media.getContentType());
-        //    }
         }
         catch(Exception e)
         {
-            System.out.println("Mapping Error Occured : " + e.getMessage());
             throw new ApiRequestException("Internal Error" , HttpStatus.INTERNAL_SERVER_ERROR);
         }
         
     }
 
     @GetMapping(path = "/fake")
-    public Estate getNullEstate(){
+    public Estate getNullEstate() {
         return new Estate();
     }
+
     @GetMapping(path = "/fake/parking")
-    public Estate getNullParking(){
+    public Estate getNullParking() {
         return new Parking();
     }
+
     @GetMapping(path = "/fake/house")
-    public Estate getNullHouse(){
+    public Estate getNullHouse() {
         return new House();
     }
 }
