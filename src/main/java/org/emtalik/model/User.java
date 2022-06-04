@@ -1,7 +1,7 @@
 package org.emtalik.model;
 
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -18,8 +18,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.springframework.web.multipart.MultipartFile;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -56,8 +59,9 @@ public class User {
 	private String email;
 	@Column(name = "password", length = 45)
 	private String password;
-	@Column(name = "made_on", insertable = false)
-	private Timestamp madeOn;
+	@Column(name = "made_on", insertable = false, updatable = false,columnDefinition = "TIMESTAMP default TIMESTAMP")
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date madeOn;
 	@Column(name = "contact_number", length = 15)
 	private String contactNumber;
 	@Enumerated(EnumType.STRING)
@@ -105,12 +109,20 @@ public class User {
 
 	}
 
-	public void setPicture(MultipartFile picture) throws IOException {
-		this.picture = new ProfilePicture(picture);
+	public void setPictureWithFile(MultipartFile picture) throws IOException {
+		if(picture == null) { 
+			this.picture = null;  
+		} else {
+			this.picture = new ProfilePicture(picture);
+		}
 
 	}
 	public void setPicture(ProfilePicture picture) throws IOException {
-		this.picture = picture;
+		if(picture == null) { 
+			this.picture = null;  
+		} else {
+			this.picture = picture;
+		}
 
 	}
 

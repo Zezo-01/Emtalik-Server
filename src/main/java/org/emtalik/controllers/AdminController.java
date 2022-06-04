@@ -40,10 +40,13 @@ public class AdminController {
 			if(picture != null && picture.getContentType().split("/")[0].equals("image"))
 			{
 				System.out.println(picture.getBytes());
-				user.setPicture(picture);
+				user.setPictureWithFile(picture);
 			} 
+			if(user.getFirstName() == null ||user.getFathersName() == null ||user.getGrandfathersName() == null ||user.getSurName() == null )
 			{
 				user.setRole(Role.buyer);
+			} else {
+				user.setRole(Role.seller);
 			}
 			
 			return UserProvider.copyUser(adminService.saveUser(user));

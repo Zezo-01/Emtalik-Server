@@ -57,11 +57,13 @@ public class Estate {
     private String name;
     @Column(length = 45)
     private String address;
+    @Column(length = 9)
+    private String type;
     @Column(length = 255)
     private String description;
     @Column(length = 3)
     private Double size;
-    @Column(name = "made_on", insertable = false)
+    @Column(name = "made_on", insertable = false , updatable = false,columnDefinition = "TIMESTAMP default TIMESTAMP")
 	private Timestamp madeOn;
     private boolean approved;
     @OneToOne(
@@ -87,7 +89,7 @@ public class Estate {
         this.mainPicture = picture;
     }
 
-    public void setMainPicture(MultipartFile picture) throws IOException{
+    public void setMainPictureWithFile(MultipartFile picture) throws IOException{
         this.mainPicture = new EstateMainPicture(picture);
     }
 
