@@ -31,7 +31,7 @@ public class ProfilePicture {
 	@GeneratedValue
 	(strategy = GenerationType.SEQUENCE, 
 	generator = "profile_picture_sequence")
-    private Integer id;
+    private int id;
     @Column(name = "content_type", length = 25)
     private String contentType;
     @Lob

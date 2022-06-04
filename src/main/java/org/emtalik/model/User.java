@@ -61,7 +61,7 @@ public class User {
 	@Column(name = "contact_number", length = 15)
 	private String contactNumber;
 	@Enumerated(EnumType.STRING)
-	@Column(name = "role", columnDefinition = "ENUM(\"admin\",\"buyer\",\"seller\",)")
+	@Column(name = "role", columnDefinition = "enum(\"admin\",\"buyer\",\"seller\")")
 	private Role role;
 	@Column(name = "interests",columnDefinition = "SET(\"apartment\",\"house\",\"parking\",\"store\",\"land\")")
 	private String interests;

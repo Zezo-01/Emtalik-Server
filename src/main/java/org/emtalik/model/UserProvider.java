@@ -15,8 +15,6 @@ public class UserProvider
     private Role role;
     private List<String> interests;
    
-    
-
     public static UserProvider copyUser(User user){
         return new UserProvider(user.getId(), user.getUsername(),user.getRole(), List.of(user.getInterests().split(",")) );
     }
