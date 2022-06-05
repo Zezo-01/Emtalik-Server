@@ -1,5 +1,50 @@
 package org.emtalik.service;
 
+import org.emtalik.Repositroy.ApartmentRepo;
+import org.emtalik.Repositroy.EstateRepo;
+import org.emtalik.Repositroy.HouseRepo;
+import org.emtalik.Repositroy.LandRepo;
+import org.emtalik.Repositroy.ParkingRepo;
+import org.emtalik.Repositroy.StoreRepo;
+import org.emtalik.model.Apartment;
+import org.emtalik.model.House;
+import org.emtalik.model.Land;
+import org.emtalik.model.Parking;
+import org.emtalik.model.Store;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
 public class EstateService {
     
+    private final EstateRepo apartmentRepo;
+    private final EstateRepo houseRepo;
+    private final EstateRepo landRepo;
+    private final EstateRepo parkingRepo;
+    private final EstateRepo storeRepo;
+    @Autowired
+    public EstateService(ApartmentRepo apartmentRepo,HouseRepo houseRepo, LandRepo landRepo,ParkingRepo parkingRepo,StoreRepo storeRepo){
+        this.apartmentRepo = apartmentRepo;
+        this.houseRepo = houseRepo;
+        this.landRepo = landRepo;
+        this.parkingRepo = parkingRepo;
+        this.storeRepo = storeRepo;
+    }
+
+    public void saveApartment(Apartment apartment){
+        apartmentRepo.save(apartment);
+    }
+    public void saveHouse(House house){
+        houseRepo.save(house);
+    }
+    public void saveLand(Land land){
+        landRepo.save(land);
+    }
+    public void saveParking(Parking parking){
+        parkingRepo.save(parking);
+    }
+    public void saveStore(Store store){
+        storeRepo.save(store);
+    }
+
 }

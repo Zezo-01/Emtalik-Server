@@ -9,6 +9,7 @@ import org.emtalik.model.EstateMedia;
 import org.emtalik.model.House;
 import org.emtalik.model.Parking;
 import org.emtalik.service.AdminService;
+import org.emtalik.service.EstateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +28,11 @@ public class EstateController {
 
     @Autowired
     AdminService adminService;
+    @Autowired
+    EstateService estateService;
+   
+
+   
 
     @PostMapping(path= "/create")
     public void createEstate(@RequestParam String estateJson,@RequestParam String type ,@RequestParam int userId, @RequestParam MultipartFile estateMainPicture, @RequestParam(required = false) List<MultipartFile> estateMedia)
@@ -40,26 +46,14 @@ public class EstateController {
                 house.setMainPictureWithFile(estateMainPicture);
                 List<EstateMedia> media = new ArrayList<EstateMedia>();
                 for(MultipartFile mf: estateMedia){
-                    media.add(new EstateMedia(mf));
+                    EstateMedia em = new EstateMedia(mf);
+                    em.setEstate(house);
+                    media.add(em);
                 }
                 house.setMedia(media);
                 house.setOwner(adminService.getUserFromId(userId).get());
-                
-                
+                estateService.saveHouse(house);
                
-
-                // for(EstateMedia em : house.getMedia()){
-                //     System.out.println("2 : " + em.getContentType());
-                // }
-                           
-                // System.out.println("Estate :\n" +  "Content Type : " + house.getMainPicture().getContentType() + "\t");
-               
-                // System.out.println("EstateMedia :\n" );
-                //     for(MultipartFile em : estateMedia){
-                //         System.out.println("Content Type : " + em.getContentType());
-                //     }
-               
-                // HOUSE BS
             } 
         }
         catch(Exception e)
