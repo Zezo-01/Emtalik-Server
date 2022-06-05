@@ -1,5 +1,7 @@
 package org.emtalik.service;
 
+import java.util.List;
+
 import org.emtalik.Repositroy.ApartmentRepo;
 import org.emtalik.Repositroy.EstateRepo;
 import org.emtalik.Repositroy.HouseRepo;
@@ -7,6 +9,7 @@ import org.emtalik.Repositroy.LandRepo;
 import org.emtalik.Repositroy.ParkingRepo;
 import org.emtalik.Repositroy.StoreRepo;
 import org.emtalik.model.Apartment;
+import org.emtalik.model.Estate;
 import org.emtalik.model.House;
 import org.emtalik.model.Land;
 import org.emtalik.model.Parking;
@@ -22,13 +25,15 @@ public class EstateService {
     private final EstateRepo landRepo;
     private final EstateRepo parkingRepo;
     private final EstateRepo storeRepo;
+    private final EstateRepo estateRepo;
     @Autowired
-    public EstateService(ApartmentRepo apartmentRepo,HouseRepo houseRepo, LandRepo landRepo,ParkingRepo parkingRepo,StoreRepo storeRepo){
+    public EstateService(ApartmentRepo apartmentRepo,HouseRepo houseRepo, LandRepo landRepo,ParkingRepo parkingRepo,StoreRepo storeRepo,EstateRepo estateRepo){
         this.apartmentRepo = apartmentRepo;
         this.houseRepo = houseRepo;
         this.landRepo = landRepo;
         this.parkingRepo = parkingRepo;
         this.storeRepo = storeRepo;
+        this.estateRepo = estateRepo;
     }
 
     public void saveApartment(Apartment apartment){
@@ -45,6 +50,9 @@ public class EstateService {
     }
     public void saveStore(Store store){
         storeRepo.save(store);
+    }
+    public List<Estate> getEstates(){
+        return estateRepo.findAll();
     }
 
 }

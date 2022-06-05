@@ -1,6 +1,8 @@
 package org.emtalik.model;
 
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
@@ -19,4 +21,18 @@ public class Parking extends Estate {
     private String carsAllowed;
     @Column(name = "vehicle_capacity")
     private int vehicleCapacity;
+
+    public void setCarsAllowed(List<String> carsAllowed) {
+		String finalValue = "";
+		for (int i = 0; i < carsAllowed.size(); i++) {
+			if (i != carsAllowed.size() - 1) {
+				finalValue += carsAllowed.get(i) + ",";
+			} else {
+				finalValue += carsAllowed.get(i);
+			}
+		}
+		this.carsAllowed = finalValue;
+		
+
+	}
 }
