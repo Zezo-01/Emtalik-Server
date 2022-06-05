@@ -36,6 +36,10 @@ public class EstateService {
         this.estateRepo = estateRepo;
     }
 
+    public Estate getEstateById(int id){
+        return estateRepo.findById(id).get();
+    }
+
     public void saveApartment(Apartment apartment){
         apartmentRepo.save(apartment);
     }
@@ -50,6 +54,10 @@ public class EstateService {
     }
     public void saveStore(Store store){
         storeRepo.save(store);
+    }
+
+    public List<Estate> getApprovedEstates(){
+        return estateRepo.findByApprovedTrue();
     }
     public List<Estate> getEstates(){
         return estateRepo.findAll();

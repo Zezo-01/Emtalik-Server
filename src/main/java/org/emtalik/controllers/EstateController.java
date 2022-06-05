@@ -2,11 +2,14 @@ package org.emtalik.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import org.emtalik.exception.ApiRequestException;
 import org.emtalik.model.Apartment;
 import org.emtalik.model.Estate;
+import org.emtalik.model.EstateMainPicture;
 import org.emtalik.model.EstateMedia;
+import org.emtalik.model.EstateResponse;
 import org.emtalik.model.House;
 import org.emtalik.model.Land;
 import org.emtalik.model.Parking;
@@ -14,8 +17,12 @@ import org.emtalik.model.Store;
 import org.emtalik.service.AdminService;
 import org.emtalik.service.EstateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +41,20 @@ public class EstateController {
     @Autowired
     EstateService estateService;
    
+    @GetMapping(path = "/mainpicture/{id}")
+    public ResponseEntity<byte[]> getEstateMainPicture(@PathVariable int id){
+        try
+		{
+			EstateMainPicture picture = estateService.getEstateById(id).getMainPicture();
+			HttpHeaders header = new HttpHeaders();
+			header.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=profilepicture");
+			header.setContentType(MediaType.parseMediaType(picture.getContentType()));
+			return new ResponseEntity<byte[]>(picture.getContent(), header, HttpStatus.OK);
+		}
+		catch(NoSuchElementException exception){
+			throw new ApiRequestException("No picture found",HttpStatus.NOT_FOUND);
+		}
+    }
 
    
 
@@ -125,34 +146,23 @@ public class EstateController {
         
     }
 
-    @GetMapping(path = "/fake")
-    public Estate getNullEstate() {
-        return new Estate();
-    }
-
-    @GetMapping(path = "/fake/parking")
-    public Estate getNullParking() {
-        return new Parking();
-    }
-
-    @GetMapping(path = "/fake/house")
-    public Estate getNullHouse() {
-        return new House();
-    }
-    @GetMapping(path = "/fake/apartment")
-    public Estate getNullApartment() {
-        return new Apartment();
-    }
-    @GetMapping(path = "/fake/store")
-    public Estate getNullStore() {
-        return new Store();
-    }
-    @GetMapping(path = "/fake/land")
-    public Estate getNullLand() {
-        return new Land();
-    }
+   
     @GetMapping(path = "")
-    public List<Estate> getEstates(){
-        return estateService.getEstates();
+    public List<EstateResponse> getAllEstates(){
+        List<Estate> estates = estateService.getEstates();  
+        List<EstateResponse> response = new ArrayList<EstateResponse>();
+        for(Estate e: estates){
+            response.add(EstateResponse.copyEstate(e));
+        }
+        return response;
+    }
+    @GetMapping(path = "/approved")
+    public List<EstateResponse> getApprovedEstates(){
+        List<Estate> estates = estateService.getApprovedEstates();  
+        List<EstateResponse> response = new ArrayList<EstateResponse>();
+        for(Estate e: estates){
+            response.add(EstateResponse.copyEstate(e));
+        }
+        return response;
     }
 }
