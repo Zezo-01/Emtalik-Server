@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.emtalik.exception.ApiException;
 import org.emtalik.exception.ApiRequestException;
 import org.emtalik.model.Apartment;
 import org.emtalik.model.Estate;
@@ -12,6 +13,7 @@ import org.emtalik.model.EstateMedia;
 import org.emtalik.model.EstateResponse;
 import org.emtalik.model.House;
 import org.emtalik.model.Land;
+import org.emtalik.model.MediaResponse;
 import org.emtalik.model.Parking;
 import org.emtalik.model.Store;
 import org.emtalik.service.AdminService;
@@ -41,8 +43,55 @@ public class EstateController {
     @Autowired
     EstateService estateService;
    
+
+    @GetMapping(path = "media/{estateId}/{mediaId}")
+    public ResponseEntity<byte[]> displayEstateMedia(@PathVariable int estateId,@PathVariable int mediaId){
+        try
+		{
+            HttpHeaders header = new HttpHeaders();
+			List<EstateMedia> estateMedia = estateService.getEstateById(estateId).getMedia();
+            EstateMedia targetMedia = new EstateMedia();
+            for(EstateMedia em : estateMedia){
+                if(em.getId() == mediaId){
+                    targetMedia = em;
+                }
+            }
+            if(targetMedia.getContentType() == null){
+                throw new ApiRequestException("No picture found",HttpStatus.NOT_FOUND);
+            }
+
+			header.add(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=profilepicture");
+			header.setContentType(MediaType.parseMediaType(targetMedia.getContentType()));
+			return new ResponseEntity<byte[]>(targetMedia.getContent(), header, HttpStatus.OK);
+		}
+		catch(NoSuchElementException exception)
+        {
+			throw new ApiRequestException("No picture found",HttpStatus.NOT_FOUND);
+		}
+    }
+
+
+
+    @GetMapping(path = "media/{id}")
+    public List<MediaResponse> getEstateMediaPath(@PathVariable(name = "id") int estateId){
+        try
+        {
+            List<EstateMedia> media = estateService.getEstateById(estateId).getMedia();
+            List<MediaResponse> mediaResponse = new ArrayList<MediaResponse>();
+            for(EstateMedia em : media){
+                mediaResponse.add(MediaResponse.copy(em));
+            }
+            return mediaResponse;
+        }
+        catch(NoSuchElementException exception)
+        {
+            throw new ApiRequestException("No estate found",HttpStatus.NOT_FOUND);
+        }
+    }
+
+
     @GetMapping(path = "/mainpicture/{id}")
-    public ResponseEntity<byte[]> getEstateMainPicture(@PathVariable int id){
+    public ResponseEntity<byte[]> displayEstateMainPicture(@PathVariable int id){
         try
 		{
 			EstateMainPicture picture = estateService.getEstateById(id).getMainPicture();
