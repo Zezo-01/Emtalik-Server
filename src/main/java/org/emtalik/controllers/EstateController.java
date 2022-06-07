@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.emtalik.exception.ApiException;
 import org.emtalik.exception.ApiRequestException;
 import org.emtalik.model.Apartment;
 import org.emtalik.model.Estate;

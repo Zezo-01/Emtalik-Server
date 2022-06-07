@@ -59,7 +59,7 @@ public class User {
 	private String email;
 	@Column(name = "password", length = 45)
 	private String password;
-	@Column(name = "made_on", insertable = false, updatable = false,columnDefinition = "TIMESTAMP default TIMESTAMP")
+	@Column(name = "made_on", insertable = false, updatable = false,columnDefinition = "TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date madeOn;
 	@Column(name = "contact_number", length = 15)
