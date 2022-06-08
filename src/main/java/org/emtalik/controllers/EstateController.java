@@ -114,7 +114,7 @@ public class EstateController {
         try
         {
             if(type.equals("house")){
-                System.out.println("REACHED : HOUSE");
+
                 House estate = objectMapper.readValue(estateJson, House.class);
                 estate.setMainPictureWithFile(estateMainPicture);
                 List<EstateMedia> media = new ArrayList<EstateMedia>();
@@ -128,7 +128,7 @@ public class EstateController {
                 estateService.saveHouse(estate);
                
             } else if(type.equals("apartment")){
-                System.out.println("REACHED : APARTMENT");
+
                 Apartment estate = objectMapper.readValue(estateJson, Apartment.class);
                 estate.setMainPictureWithFile(estateMainPicture);
                 List<EstateMedia> media = new ArrayList<EstateMedia>();
@@ -143,7 +143,7 @@ public class EstateController {
 
             }
             else if(type.equals("parking")){
-                System.out.println("REACHED : PARKING");
+
                 Parking estate = objectMapper.readValue(estateJson, Parking.class);
                 estate.setMainPictureWithFile(estateMainPicture);
                 List<EstateMedia> media = new ArrayList<EstateMedia>();
@@ -159,7 +159,7 @@ public class EstateController {
                 
             }
             else if(type.equals("land")){
-                System.out.println("REACHED : LAND");
+
                 Land estate = objectMapper.readValue(estateJson, Land.class);
                 estate.setMainPictureWithFile(estateMainPicture);
                 List<EstateMedia> media = new ArrayList<EstateMedia>();
@@ -172,7 +172,7 @@ public class EstateController {
                 estate.setOwner(adminService.getUserFromId(userId).get());
                 estateService.saveLand(estate);
             }else if(type.equals("store")){
-                System.out.println("REACHED : STORE");
+
                 Store estate = objectMapper.readValue(estateJson, Store.class);
                 estate.setMainPictureWithFile(estateMainPicture);
                 List<EstateMedia> media = new ArrayList<EstateMedia>();
@@ -188,7 +188,6 @@ public class EstateController {
         }
         catch(Exception e)
         {
-            System.out.println(e.getMessage());
             throw new ApiRequestException("Internal Error" , HttpStatus.INTERNAL_SERVER_ERROR);
         }
         

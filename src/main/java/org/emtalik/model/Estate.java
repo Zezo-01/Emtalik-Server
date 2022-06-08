@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -57,8 +59,9 @@ public class Estate {
     private String name;
     @Column(length = 45)
     private String address;
-    @Column(length = 45)
-    private String province;
+    @Column(columnDefinition = "enum(\"nablus\",\"jenin\",\"ramallah\",\"jerusalem\",\"jericho\",\"bethleem\",\"hebrone\",\"selfeet\",\"tubas\",\"qalqilya\",\"tulkarem\")")
+    @Enumerated(EnumType.STRING)
+    private Province province;
     @Column(length = 9)
     private String type;
     @Column(length = 25)
