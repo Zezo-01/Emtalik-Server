@@ -194,7 +194,7 @@ public class EstateController {
     }
 
    
-    @GetMapping(path = "")
+    @GetMapping()
     public List<EstateResponse> getAllEstates(){
         List<Estate> estates = estateService.getEstates();  
         List<EstateResponse> response = new ArrayList<EstateResponse>();

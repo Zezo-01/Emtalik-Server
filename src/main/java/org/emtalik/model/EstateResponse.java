@@ -10,8 +10,9 @@ public class EstateResponse {
     private String name;
     private String type;
     private String address;
+    private Province province;
 
     public static EstateResponse copyEstate(Estate estate){
-        return new EstateResponse(estate.getId(), estate.getName(), estate.getType(), estate.getAddress());
+        return new EstateResponse(estate.getId(), estate.getName(), estate.getType(), estate.getAddress(),estate.getProvince());
     }
 }
