@@ -52,6 +52,22 @@ public class UserController
 			return response;
 		}
 	}
+	@GetMapping(path = "/estates/approved/{id}")
+	public List<EstateResponse> getUserApprovedEstates(@PathVariable int id){
+		User user = userService.getUserById(id);
+		
+		if(user.getOwnedEstates().isEmpty()){
+			return null;
+		} else {
+			List<EstateResponse> response = new ArrayList<EstateResponse>();
+			for(Estate estate: user.getOwnedEstates() ){
+				if(estate.isApproved()){
+					response.add(EstateResponse.copyEstate(estate));
+				}
+			}
+			return response;
+		}
+	}
 
     @GetMapping("/picture/{id}")
 	public ResponseEntity<byte[]> getPictureForUser(@PathVariable int id){
