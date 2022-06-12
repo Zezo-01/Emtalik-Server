@@ -1,9 +1,14 @@
 package org.emtalik.controllers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.emtalik.exception.ApiRequestException;
+import org.emtalik.model.Estate;
+import org.emtalik.model.EstateResponse;
 import org.emtalik.model.ProfilePicture;
+import org.emtalik.model.User;
 import org.emtalik.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -21,6 +26,32 @@ public class UserController
 {
     @Autowired
     UserService userService;
+
+	@GetMapping(path = "/hasestates/{id}")
+	public boolean userHasEstates(@PathVariable int id){
+		User user = userService.getUserById(id);
+		if(user.getOwnedEstates().isEmpty()){
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+
+	@GetMapping(path = "/estates/{id}")
+	public List<EstateResponse> getUserEstates(@PathVariable int id){
+		User user = userService.getUserById(id);
+		
+		if(user.getOwnedEstates().isEmpty()){
+			return null;
+		} else {
+			List<EstateResponse> response = new ArrayList<EstateResponse>();
+			for(Estate estate: user.getOwnedEstates() ){
+				response.add(EstateResponse.copyEstate(estate));
+			}
+			return response;
+		}
+	}
 
     @GetMapping("/picture/{id}")
 	public ResponseEntity<byte[]> getPictureForUser(@PathVariable int id){

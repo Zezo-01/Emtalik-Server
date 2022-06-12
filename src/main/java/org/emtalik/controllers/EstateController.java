@@ -42,6 +42,7 @@ public class EstateController {
     @Autowired
     EstateService estateService;
    
+    
 
     @GetMapping(path = "media/{estateId}/{mediaId}")
     public ResponseEntity<byte[]> displayEstateMedia(@PathVariable int estateId,@PathVariable int mediaId){

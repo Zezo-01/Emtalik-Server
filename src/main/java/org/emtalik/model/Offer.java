@@ -1,7 +1,10 @@
 package org.emtalik.model;
 
+
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -30,8 +33,22 @@ public class Offer {
 	(strategy = GenerationType.SEQUENCE, 
 	generator = "offer_sequence")
     private int id;
+	@Column(length = 25)
+	private String name;
+	@Enumerated
+	@Column(columnDefinition = "enum(\"sell\",\"rent\")")
+	private OfferType type;
+	@Column(name = "sell_price")
+	private double sellPrice;
+	@Column(name = "rent_price_per_month")
+	private double rentPricePerMonth;
+	@Column(name = "rent_price_per_year")
+	private double rentPricePerYear;
+	@Column(name = "rent_price_per_seasson")
+	private double rentPricePerSeasson;
+	private boolean negotiable;
     @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "id",referencedColumnName = "for_estate" )
+    @JoinColumn(name = "for_estate",referencedColumnName = "id" )
     private Estate estate;
 
 

@@ -90,7 +90,7 @@ public class Estate {
     )
     private List<EstateMedia> media;
 
-    @OneToMany(mappedBy = "offer",orphanRemoval = true,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "estate",orphanRemoval = true,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Offer> offers;
 
     public void setMainPicture(EstateMainPicture picture){
