@@ -4,6 +4,7 @@ package org.emtalik.model;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -35,8 +36,9 @@ public class Offer {
     private int id;
 	@Column(length = 25)
 	private String name;
-	@Enumerated
+	
 	@Column(columnDefinition = "enum(\"sell\",\"rent\")")
+	@Enumerated(EnumType.STRING)
 	private OfferType type;
 	@Column(name = "sell_price")
 	private double sellPrice;

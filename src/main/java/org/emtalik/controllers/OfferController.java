@@ -3,11 +3,8 @@ package org.emtalik.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.emtalik.Repositroy.EstateRepo;
-import org.emtalik.Repositroy.HouseRepo;
 import org.emtalik.exception.ApiRequestException;
 import org.emtalik.model.Estate;
-import org.emtalik.model.House;
 import org.emtalik.model.Offer;
 import org.emtalik.model.OfferResponse;
 import org.emtalik.service.EstateService;
@@ -27,12 +24,7 @@ public class OfferController {
     @Autowired
     OfferService offerService;
     @Autowired
-    EstateService estateService;
-    @Autowired
-    EstateRepo estateRepo;
-    @Autowired
-    HouseRepo houseRepo;
-
+    EstateService estateService; 
     
 
     @GetMapping
@@ -51,29 +43,15 @@ public class OfferController {
         try
         {
             Offer offer = objectMapper.readValue(offerJson, Offer.class);
-            Estate estate = estateRepo.findById(estateId).get();
+            Estate estate = estateService.getEstateById(estateId);
             offer.setEstate(estate);
-            offerService.saveOffer(offer);
-            // estate.setOffers(List.of(offer));
-            
-            // if(estate.getType().equals("house")){
-            //     House house = houseRepo.findById(estateId).get();
-            //     house.setOffer(List.of(offer));
-            //     estateService.saveHouse(house);
-
-            // } else if (estate.getType().equals("store")){
-
-            // }else if (estate.getType().equals("parking")){
-                
-            // }else if (estate.getType().equals("apartment")){
-                
-            // }else if (estate.getType().equals("land")){
-                
-            // }
+            offerService.saveOffer(offer);            
             
         }
         catch(Exception e)
         {
+            e.getMessage();
+            System.out.println("\n\n");
             e.printStackTrace();
             throw new ApiRequestException("No estate with this id found",HttpStatus.NOT_FOUND);
         }
