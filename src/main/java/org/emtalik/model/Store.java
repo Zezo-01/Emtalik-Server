@@ -18,4 +18,5 @@ public class Store extends Estate{
     private int fridges;
     @Column(name = "storage_room")
     private boolean storageRoom;
+    
 }

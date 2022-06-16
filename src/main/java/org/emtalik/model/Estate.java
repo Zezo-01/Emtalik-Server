@@ -68,7 +68,7 @@ public class Estate {
     private String description;
     @Column(length = 3)
     private Double size;
-    @Column(name = "made_on", insertable = false , updatable = false,columnDefinition = "TIMESTAMP")
+    @Column(name = "made_on", insertable = false , updatable = false,columnDefinition = "TIMESTAMP default TIMESTAMP")
 	private Timestamp madeOn;
     private boolean approved;
     @OneToOne(

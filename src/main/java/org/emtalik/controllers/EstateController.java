@@ -6,15 +6,20 @@ import java.util.NoSuchElementException;
 
 import org.emtalik.exception.ApiRequestException;
 import org.emtalik.model.Apartment;
+import org.emtalik.model.ApartmentResponse;
 import org.emtalik.model.Estate;
 import org.emtalik.model.EstateMainPicture;
 import org.emtalik.model.EstateMedia;
 import org.emtalik.model.EstateResponse;
 import org.emtalik.model.House;
+import org.emtalik.model.HouseResponse;
 import org.emtalik.model.Land;
+import org.emtalik.model.LandResponse;
 import org.emtalik.model.MediaResponse;
 import org.emtalik.model.Parking;
+import org.emtalik.model.ParkingResponse;
 import org.emtalik.model.Store;
+import org.emtalik.model.StoreResponse;
 import org.emtalik.service.AdminService;
 import org.emtalik.service.EstateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -194,6 +199,26 @@ public class EstateController {
         
     }
 
+    @GetMapping("parking/{id}")
+    public ParkingResponse getParkingById(@PathVariable int id){
+        return ParkingResponse.copyParking((Parking) estateService.getEstateById(id)) ;
+    }
+    @GetMapping("store/{id}")
+    public StoreResponse getStoreById(@PathVariable int id){
+        return StoreResponse.copyStore((Store) estateService.getEstateById(id)) ;
+    }
+    @GetMapping("apartment/{id}")
+    public ApartmentResponse getApartmentById(@PathVariable int id){
+        return ApartmentResponse.copyApartment((Apartment) estateService.getEstateById(id)) ;
+    }
+    @GetMapping("house/{id}")
+    public HouseResponse getHouseById(@PathVariable int id){
+        return HouseResponse.copyHouse((House) estateService.getEstateById(id)) ;
+    }
+    @GetMapping("land/{id}")
+    public LandResponse getLandById(@PathVariable int id){
+        return LandResponse.copyLand((Land) estateService.getEstateById(id)) ;
+    }
    
     @GetMapping()
     public List<EstateResponse> getAllEstates(){

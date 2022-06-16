@@ -62,6 +62,7 @@ public class EstateService {
     public List<Estate> getEstates(){
         return estateRepo.findAll();
     }
+   
     
 
 }
