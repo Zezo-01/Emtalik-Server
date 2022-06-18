@@ -20,9 +20,11 @@ public class OfferResponse {
 	private double rentPricePerSeasson;
 	private boolean negotiable;
     private int estateId;
+	private String estateName;
+	private String estateType;
 
     public static OfferResponse copy(Offer offer){
-        return new OfferResponse(offer.getId(), offer.getName(), offer.getType(), offer.getSellPrice(), offer.getRentPricePerMonth(), offer.getRentPricePerYear(), offer.getRentPricePerSeasson(), offer.isNegotiable(),offer.getEstate().getId());
+        return new OfferResponse(offer.getId(), offer.getName(), offer.getType(), offer.getSellPrice(), offer.getRentPricePerMonth(), offer.getRentPricePerYear(), offer.getRentPricePerSeasson(), offer.isNegotiable(),offer.getEstate().getId(),offer.getEstate().getName(),offer.getEstate().getType());
     }
 
 }

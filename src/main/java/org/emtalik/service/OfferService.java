@@ -11,7 +11,11 @@ import org.springframework.stereotype.Service;
 public class OfferService {
     @Autowired
     OfferRepo offerRepo;
-    
+    public Offer getOfferById(int id){
+        return offerRepo.getById(id);
+    }
+
+
     public List<Offer> getOffers(){
         return offerRepo.findAll();
     }
