@@ -21,6 +21,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 
+import lombok.Builder;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
@@ -64,11 +65,11 @@ public class Estate {
     private Province province;
     @Column(length = 9)
     private String type;
-    @Column(length = 25)
+    @Column(length = 45)
     private String description;
     @Column(length = 3)
     private Double size;
-    @Column(name = "made_on", insertable = false , updatable = false,columnDefinition = "TIMESTAMP default TIMESTAMP")
+    @Column(name = "made_on", insertable = false , updatable = false,columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP()")
 	private Timestamp madeOn;
     private boolean approved;
     @OneToOne(

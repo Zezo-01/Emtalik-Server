@@ -1,6 +1,7 @@
 package org.emtalik.model;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +22,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import lombok.Builder;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -29,6 +31,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -59,9 +62,8 @@ public class User {
 	private String email;
 	@Column(name = "password", length = 45)
 	private String password;
-	@Column(name = "made_on", insertable = false, updatable = false,columnDefinition = "TIMESTAMP")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date madeOn;
+	@Column(name = "made_on", insertable = false , updatable = false,columnDefinition = "TIMESTAMP default CURRENT_TIMESTAMP()")
+	private Timestamp madeOn;
 	@Column(name = "contact_number", length = 15)
 	private String contactNumber;
 	@Enumerated(EnumType.STRING)

@@ -4,9 +4,10 @@ spring:
       max-file-size: 250MB
       max-request-size: 256MB
   datasource:
+    username: root
+    password: 12373458
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/emtalik-database
-    username: root
   jpa:
     hibernate:
       ddl-auto: update

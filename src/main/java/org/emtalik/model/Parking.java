@@ -6,16 +6,14 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Parking extends Estate {
     @Column(name = "cars_allowed", columnDefinition = "SET(\"automobile\",\"bus\",\"truck\",\"bike\")")
     private String carsAllowed;

@@ -12,6 +12,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
@@ -21,6 +23,8 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "profile_pictures")
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class ProfilePicture {
     @Id
     @SequenceGenerator
