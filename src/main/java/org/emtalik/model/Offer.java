@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,6 +24,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Offer {
     @Id
     @SequenceGenerator
@@ -49,7 +51,9 @@ public class Offer {
 	@Column(name = "rent_price_per_seasson")
 	private double rentPricePerSeasson;
 	private boolean negotiable;
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @ManyToOne(
+			fetch = FetchType.LAZY
+	)
     @JoinColumn(name = "for_estate",referencedColumnName = "id" )
     private Estate estate;
 

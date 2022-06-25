@@ -11,11 +11,7 @@ import org.emtalik.service.EstateService;
 import org.emtalik.service.OfferService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -32,6 +28,10 @@ public class OfferController {
         return OfferResponse.copy(offerService.getOfferById(id)) ;
     }
 
+    @DeleteMapping
+    public void deleteOffer(int offerId){
+        offerService.deleteOfferById(offerId);
+    }
 
     @GetMapping
     public List<OfferResponse> getOffers(){

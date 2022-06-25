@@ -15,7 +15,9 @@ public class OfferService {
         return offerRepo.getById(id);
     }
 
-
+    public void deleteOfferById(int id){
+        offerRepo.deleteById(id);
+    }
     public List<Offer> getOffers(){
         return offerRepo.findAll();
     }

@@ -3,7 +3,9 @@ package org.emtalik.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.emtalik.Repositroy.EstateRepo;
 import org.emtalik.Repositroy.UsersRepo;
+import org.emtalik.model.Estate;
 import org.emtalik.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,10 +14,18 @@ import org.springframework.stereotype.Service;
 public class AdminService {
 
 	private final UsersRepo userRepo;
+	private final EstateRepo estateRepo;
 
 	@Autowired
-	AdminService(UsersRepo userRepo) {
+	AdminService(UsersRepo userRepo, EstateRepo estateRepo) {
 		this.userRepo = userRepo;
+		this.estateRepo = estateRepo;
+	}
+
+	public void toggleEstateApprovalById(int id){
+		Estate estate = estateRepo.findById(id).get();
+		estate.setApproved( estate.isApproved() ? false : true);
+		estateRepo.save(estate);
 	}
 
 	public List<User> getUsers() {

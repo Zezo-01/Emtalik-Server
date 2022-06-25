@@ -3,11 +3,17 @@ package org.emtalik;
 
 import org.emtalik.Repositroy.*;
 import org.emtalik.model.*;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.reactive.WebFluxProperties;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.data.jpa.repository.Modifying;
 
 
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -20,6 +26,8 @@ public class EmtalikApplication  {
 		ConfigurableApplicationContext context =
 		 	SpringApplication.run(EmtalikApplication.class, args);
 
+
+
 		UsersRepo userRepo = context.getBean(UsersRepo.class);
 		OfferRepo offerRepo = context.getBean(OfferRepo.class);
 		ApartmentRepo apartmentRepo = context.getBean(ApartmentRepo.class);
@@ -27,6 +35,8 @@ public class EmtalikApplication  {
 		LandRepo landRepo = context.getBean(LandRepo.class);
 		StoreRepo storeRepo = context.getBean(StoreRepo.class);
 		ParkingRepo parkingRepo = context.getBean(ParkingRepo.class);
+
+
 
 		userRepo.deleteAll();
 		offerRepo.deleteAll();
@@ -121,11 +131,13 @@ public class EmtalikApplication  {
 				)
 				.build();
 
-
 		userRepo.save(qusai);
 		userRepo.save(anas);
 		userRepo.save(fadi);
 		userRepo.save(yazeed);
+		userRepo.save(basel);
+
+
 
 		Parking sufyanStreetParking = Parking.builder()
 				.carsAllowed("automobile,bike")
@@ -151,32 +163,48 @@ public class EmtalikApplication  {
 		);
 
 		sufyanStreetParking.setMedia(List.of(
-			 EstateMedia.builder()
-					.contentType("image/jpeg")
-					.content(new FileInputStream(new File("src/main/resources/parking/sufyan-1.jpg")).readAllBytes())
-					 .estate(sufyanStreetParking)
-					.build(),
-			EstateMedia.builder()
-					.contentType("image/jpeg")
-					.content(new FileInputStream(new File("src/main/resources/parking/sufyan-2.jpg")).readAllBytes())
-					.estate(sufyanStreetParking)
-					.build(),
-			EstateMedia.builder()
-					.contentType("video/mp4")
-					.content(new FileInputStream(new File("src/main/resources/parking/sufyan-3.mp4")).readAllBytes())
-					.estate(sufyanStreetParking)
-					.build()
+				EstateMedia.builder()
+						.contentType("image/jpeg")
+						.content(new FileInputStream(new File("src/main/resources/parking/sufyan-1.jpg")).readAllBytes())
+						.estate(sufyanStreetParking)
+						.build(),
+				EstateMedia.builder()
+						.contentType("image/jpeg")
+						.content(new FileInputStream(new File("src/main/resources/parking/sufyan-2.jpg")).readAllBytes())
+						.estate(sufyanStreetParking)
+						.build(),
+				EstateMedia.builder()
+						.contentType("video/mp4")
+						.content(new FileInputStream(new File("src/main/resources/parking/sufyan-3.mp4")).readAllBytes())
+						.estate(sufyanStreetParking)
+						.build()
 		));
-
 
 
 		parkingRepo.save(sufyanStreetParking);
 
 
 
+        Offer sufyanParkingOffer1 = Offer.builder()
+                .name("أجار مصف شارع سفيان")
+				.estate(sufyanStreetParking)
+                .negotiable(false)
+                .type(OfferType.rent)
+                .rentPricePerMonth(350)
+                .rentPricePerYear(3000)
+                .build();
+
+        Offer sufyanParkingOffer2 = Offer.builder()
+                .name("بيع مصف شارع سفيان")
+				.estate(sufyanStreetParking)
+                .negotiable(true)
+                .type(OfferType.sell)
+                .sellPrice(75000)
+                .build();
 
 
-
+        offerRepo.save(sufyanParkingOffer1);
+        offerRepo.save(sufyanParkingOffer2);
 
 	}
 

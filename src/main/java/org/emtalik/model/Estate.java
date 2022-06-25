@@ -46,7 +46,6 @@ public class Estate {
     private int id;
    
     @ManyToOne(
-        cascade = CascadeType.ALL,
         fetch = FetchType.EAGER,
         optional = false
     )
@@ -75,8 +74,8 @@ public class Estate {
     @OneToOne(
         cascade = CascadeType.ALL,
         optional = false,
-        fetch = FetchType.LAZY,
-        orphanRemoval = true
+        fetch = FetchType.LAZY
+
     )
     @JoinColumn(
         referencedColumnName = "picture_id",
@@ -84,14 +83,14 @@ public class Estate {
     )
     private EstateMainPicture mainPicture;
     @OneToMany(
-        mappedBy = "estate", 
-        orphanRemoval = true,
+        mappedBy = "estate",
+
         cascade = CascadeType.ALL,
         fetch = FetchType.LAZY
     )
     private List<EstateMedia> media;
 
-    @OneToMany(mappedBy = "estate",orphanRemoval = true,cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "estate",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     private List<Offer> offers;
 
     public void setMainPicture(EstateMainPicture picture){

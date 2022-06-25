@@ -62,7 +62,10 @@ public class EstateService {
     public List<Estate> getEstates(){
         return estateRepo.findAll();
     }
-   
+
+    public void deleteEstateById(int id){
+        estateRepo.deleteById(id);
+    }
     
 
 }

@@ -45,7 +45,6 @@ public class EstateMedia {
     @Column(name = "content_type", length = 25)
     private String contentType;
     @ManyToOne(
-        cascade = CascadeType.ALL,
         fetch = FetchType.EAGER,
         optional = false
     )

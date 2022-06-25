@@ -27,12 +27,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,6 +43,11 @@ public class EstateController {
     EstateService estateService;
    
     
+    @DeleteMapping
+    public void deleteEstateById(int estateId){
+        estateService.deleteEstateById(estateId);
+    }
+
 
     @GetMapping(path = "media/{estateId}/{mediaId}")
     public ResponseEntity<byte[]> displayEstateMedia(@PathVariable int estateId,@PathVariable int mediaId){
