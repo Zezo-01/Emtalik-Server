@@ -42,10 +42,30 @@ public class OfferController {
         return offers;
     }
 
+
+    @PutMapping("/update")
+    public void modifyOffer(String offerJson,int offerId){
+        ObjectMapper objectMapper = new ObjectMapper();
+        try
+        {
+            Offer offer = objectMapper.readValue(offerJson, Offer.class);
+            Offer oldOffer = offerService.getOfferById(offerId);
+            offer.setId(oldOffer.getId());
+            offer.setEstate(oldOffer.getEstate());
+            offerService.saveOffer(offer);
+
+        }
+        catch(Exception e)
+        {
+            e.getMessage();
+            System.out.println("\n\n");
+            e.printStackTrace();
+            throw new ApiRequestException("No offer with this id found",HttpStatus.NOT_FOUND);
+        }
+    }
     @PostMapping(path = "/save")
     public void saveOffer(String offerJson, int estateId){
         ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println(offerJson);
         try
         {
             Offer offer = objectMapper.readValue(offerJson, Offer.class);

@@ -22,9 +22,10 @@ public class OfferResponse {
     private int estateId;
 	private String estateName;
 	private String estateType;
+	private int ownerId;
 
     public static OfferResponse copy(Offer offer){
-        return new OfferResponse(offer.getId(), offer.getName(), offer.getType(), offer.getSellPrice(), offer.getRentPricePerMonth(), offer.getRentPricePerYear(), offer.getRentPricePerSeasson(), offer.isNegotiable(),offer.getEstate().getId(),offer.getEstate().getName(),offer.getEstate().getType());
+        return new OfferResponse(offer.getId(), offer.getName(), offer.getType(), offer.getSellPrice(), offer.getRentPricePerMonth(), offer.getRentPricePerYear(), offer.getRentPricePerSeasson(), offer.isNegotiable(),offer.getEstate().getId(),offer.getEstate().getName(),offer.getEstate().getType(),offer.getEstate().getOwner().getId());
     }
 
 }
