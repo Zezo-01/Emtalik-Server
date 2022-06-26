@@ -59,6 +59,9 @@ public class EstateService {
     public List<Estate> getApprovedEstates(){
         return estateRepo.findByApprovedTrue();
     }
+    public List<Estate> getUnApprovedEstates(){
+        return estateRepo.findByApprovedFalse();
+    }
     public List<Estate> getEstates(){
         return estateRepo.findAll();
     }

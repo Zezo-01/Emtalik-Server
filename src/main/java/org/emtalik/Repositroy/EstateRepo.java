@@ -11,5 +11,6 @@ import org.springframework.stereotype.Repository;
 @Primary
 public interface EstateRepo extends JpaRepository<Estate, Integer> {
     List<Estate> findByApprovedTrue();
+    List<Estate> findByApprovedFalse();
     
 }

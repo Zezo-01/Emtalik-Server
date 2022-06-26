@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.emtalik.exception.ApiRequestException;
-import org.emtalik.model.Estate;
-import org.emtalik.model.EstateResponse;
-import org.emtalik.model.ProfilePicture;
-import org.emtalik.model.User;
+import org.emtalik.model.*;
+import org.emtalik.service.EstateService;
 import org.emtalik.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -34,6 +32,51 @@ public class UserController
 			return false;
 		} else {
 			return true;
+		}
+	}
+	@GetMapping(path = "/hasoffers/{id}")
+	public boolean userHasOffers(@PathVariable int id){
+
+		User user = userService.getUserById(id);
+		List<Estate> estates = user.getOwnedEstates();
+		if(estates.isEmpty()){
+			return false;
+		} else {
+			List<Offer> offers = new ArrayList<Offer>();
+			for(Estate e : estates){
+				for(Offer o : e.getOffers()){
+					offers.add(o);
+				}
+			}
+			if(offers.isEmpty()){
+				return false;
+			} else {
+				return true;
+			}
+
+		}
+	}
+	@GetMapping(path = "/offers/{id}")
+	public List<OfferResponse> getUserOffers(@PathVariable int id){
+
+		User user = userService.getUserById(id);
+		List<Estate> estates = user.getOwnedEstates();
+		if(estates.isEmpty()){
+			return null;
+		} else {
+			List<OfferResponse> offers = new ArrayList<OfferResponse>();
+			for(Estate e : estates){
+				for(Offer o : e.getOffers()){
+					offers.add(OfferResponse.copy(o));
+				}
+			}
+			if(offers.isEmpty()){
+				return null;
+			} else {
+				System.out.println("REACHED");
+				return offers;
+			}
+
 		}
 	}
 

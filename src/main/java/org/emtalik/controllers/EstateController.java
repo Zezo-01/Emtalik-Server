@@ -219,7 +219,17 @@ public class EstateController {
     public LandResponse getLandById(@PathVariable int id){
         return LandResponse.copyLand((Land) estateService.getEstateById(id)) ;
     }
-   
+
+    @GetMapping("/unapproved")
+    public List<EstateResponse> getUnApprovedEstates(){
+        List<Estate> estates = estateService.getUnApprovedEstates();
+        List<EstateResponse> response = new ArrayList<EstateResponse>();
+        for(Estate e: estates){
+            response.add(EstateResponse.copyEstate(e));
+        }
+        return response;
+    }
+
     @GetMapping()
     public List<EstateResponse> getAllEstates(){
         List<Estate> estates = estateService.getEstates();  
