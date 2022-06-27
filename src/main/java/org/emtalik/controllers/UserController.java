@@ -6,7 +6,6 @@ import java.util.NoSuchElementException;
 
 import org.emtalik.exception.ApiRequestException;
 import org.emtalik.model.*;
-import org.emtalik.service.EstateService;
 import org.emtalik.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -24,6 +23,13 @@ public class UserController
 {
     @Autowired
     UserService userService;
+
+	@GetMapping(path = "/{id}")
+	public UserDetails getUserDetails(@PathVariable int id){
+		UserDetails userDetails = UserDetails.copy(userService.getUserById(id));
+		System.out.println("Username : "  + userDetails.getUsername() +"\nRole : " + userDetails.getRole().toString() + "\n");
+		return userDetails;
+	}
 
 	@GetMapping(path = "/hasestates/{id}")
 	public boolean userHasEstates(@PathVariable int id){
@@ -73,7 +79,32 @@ public class UserController
 			if(offers.isEmpty()){
 				return null;
 			} else {
-				System.out.println("REACHED");
+				return offers;
+			}
+
+		}
+	}
+
+	@GetMapping(path = "/offers/approved/{id}")
+	public List<OfferResponse> getUserApprovedOffers(@PathVariable int id){
+
+		User user = userService.getUserById(id);
+		List<Estate> estates = user.getOwnedEstates();
+		if(estates.isEmpty()){
+			return null;
+		} else {
+			List<OfferResponse> offers = new ArrayList<OfferResponse>();
+			for(Estate e : estates){
+				if(e.isApproved()) {
+					for (Offer o : e.getOffers()) {
+						offers.add(OfferResponse.copy(o));
+					}
+				}
+			}
+			if(offers.isEmpty()){
+				return null;
+			} else {
+
 				return offers;
 			}
 
@@ -126,4 +157,6 @@ public class UserController
 			throw new ApiRequestException("No picture found",HttpStatus.NOT_FOUND);
 		}
     }
+
+
 }
