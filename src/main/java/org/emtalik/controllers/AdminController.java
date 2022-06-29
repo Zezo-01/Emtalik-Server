@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.emtalik.exception.ApiRequestException;
+import org.emtalik.model.ProfilePicture;
 import org.emtalik.model.Role;
 import org.emtalik.model.User;
 import org.emtalik.model.UserProvider;
@@ -27,6 +28,55 @@ public class AdminController {
 	public void toggleEstateApprovalById(int estateId){
 		adminService.toggleEstateApprovalById(estateId);
 	}
+
+	@PutMapping("/edit/{userId}")
+	public UserProvider updateUserInfo(@PathVariable int userId, @RequestParam boolean removePicture, @RequestParam String userJson, @RequestParam(required = false) MultipartFile picture){
+		ObjectMapper objectMapper = new ObjectMapper();
+		User newUser;
+		try
+		{
+
+			newUser = objectMapper.readValue(userJson, User.class);
+			User user = adminService.getUserFromId(userId).get();
+			user.setUsername(newUser.getUsername());
+			user.setEmail(newUser.getEmail());
+			user.setContactNumber(newUser.getContactNumber());
+			user.setFirstName(newUser.getFirstName());
+			user.setFathersName(newUser.getFathersName());
+			user.setGrandfathersName(newUser.getGrandfathersName());
+			user.setSurName(newUser.getSurName());
+			user.setInterests(List.of(newUser.getInterests().split(",")));
+			user.setPassword(newUser.getPassword());
+
+			if(removePicture == true){
+				ProfilePicture pfp = user.getPicture();
+				user.setPicture(null);
+				adminService.deleteProfilePicture(pfp);
+			}
+			else if(picture != null && picture.getContentType().split("/")[0].equals("image"))
+			{
+				adminService.deleteProfilePicture(user.getPicture());
+				user.setPictureWithFile(picture);
+			}
+			if(user.getFirstName() == null ||user.getFathersName() == null ||user.getGrandfathersName() == null ||user.getSurName() == null )
+			{
+				user.setRole(Role.buyer);
+			} else {
+				user.setRole(Role.seller);
+			}
+
+			return UserProvider.copyUser(adminService.saveUser(user));
+
+
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+			throw new ApiRequestException("Internal Error" , HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+
+
 
 	@PostMapping("/register")
 	public UserProvider registerUser(@RequestParam String userJson ,@RequestParam(required = false) MultipartFile picture)

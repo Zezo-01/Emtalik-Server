@@ -29,6 +29,7 @@ public class EmtalikApplication  {
 
 
 		UsersRepo userRepo = context.getBean(UsersRepo.class);
+		ProfilePictureRepo profilePictureRepo = context.getBean(ProfilePictureRepo.class);
 		OfferRepo offerRepo = context.getBean(OfferRepo.class);
 		ApartmentRepo apartmentRepo = context.getBean(ApartmentRepo.class);
 		HouseRepo houseRepo = context.getBean(HouseRepo.class);
@@ -39,13 +40,15 @@ public class EmtalikApplication  {
 
 
 		userRepo.deleteAll();
+		profilePictureRepo.deleteAll();
 		offerRepo.deleteAll();
 		apartmentRepo.deleteAll();
 		houseRepo.deleteAll();
 		landRepo.deleteAll();
 		storeRepo.deleteAll();
-		storeRepo.deleteAll();
 		parkingRepo.deleteAll();
+
+		System.out.println("DELETE ALL THE ABOVE");
 
 		User yazeed = User.builder()
 				.username("Zezo")

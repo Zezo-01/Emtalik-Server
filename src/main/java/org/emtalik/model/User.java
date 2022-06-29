@@ -73,17 +73,20 @@ public class User {
 	private String interests;
 	@OneToOne(
 		cascade = CascadeType.ALL,
-		fetch = FetchType.LAZY
+		fetch = FetchType.LAZY,
+		orphanRemoval = true
 	)
 	@JoinColumn(
 		name = "picture_id",
 		referencedColumnName = "id"
+
 	)
 	private ProfilePicture picture;
 	@OneToMany(
 		fetch = FetchType.LAZY,
 		cascade = CascadeType.ALL,
 		mappedBy = "owner"
+
 	)
 	private List<Estate> ownedEstates;
 

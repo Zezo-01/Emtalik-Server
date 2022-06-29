@@ -4,8 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.emtalik.Repositroy.EstateRepo;
+import org.emtalik.Repositroy.ProfilePictureRepo;
 import org.emtalik.Repositroy.UsersRepo;
 import org.emtalik.model.Estate;
+import org.emtalik.model.ProfilePicture;
 import org.emtalik.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,11 +17,13 @@ public class AdminService {
 
 	private final UsersRepo userRepo;
 	private final EstateRepo estateRepo;
+	private final ProfilePictureRepo profilePictureRepo;
 
 	@Autowired
-	AdminService(UsersRepo userRepo, EstateRepo estateRepo) {
+	AdminService(UsersRepo userRepo, EstateRepo estateRepo, ProfilePictureRepo profilePictureRepo) {
 		this.userRepo = userRepo;
 		this.estateRepo = estateRepo;
+		this.profilePictureRepo = profilePictureRepo;
 	}
 
 	public void toggleEstateApprovalById(int id){
@@ -50,6 +54,10 @@ public class AdminService {
 	
 	public User saveUser(User user){
 		return userRepo.save(user);
+	}
+
+	public void deleteProfilePicture(ProfilePicture profilePicture) {
+		profilePictureRepo.delete(profilePicture);
 	}
 	
 	
