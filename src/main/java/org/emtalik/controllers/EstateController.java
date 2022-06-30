@@ -199,6 +199,93 @@ public class EstateController {
         
     }
 
+    @PutMapping(path= "/modify")
+    public void modifyEstate(String estateJson, String type , int estateId)
+    {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        try
+        {
+            if(type.equals("house")){
+                House estate = (House) estateService.getEstateById(estateId);
+                System.out.println("House rooms : " + estate.getRooms());
+                House newEstate = objectMapper.readValue(estateJson, House.class);
+                estate.setName(newEstate.getName());
+                estate.setProvince(newEstate.getProvince());
+                estate.setAddress(newEstate.getAddress());
+                estate.setSize(newEstate.getSize());
+                estate.setDescription(newEstate.getDescription());
+                estate.setNumberOfFloors(newEstate.getNumberOfFloors());
+                estate.setRooms(newEstate.getRooms());
+                estate.setSwimmingPool(newEstate.isSwimmingPool());
+                estateService.saveHouse(estate);
+
+            } else if(type.equals("apartment")){
+
+                Apartment estate = (Apartment) estateService.getEstateById(estateId);
+                System.out.println(estate.getApartmentFloorNumber());
+                Apartment newEstate = objectMapper.readValue(estateJson, Apartment.class);
+                estate.setName(newEstate.getName());
+                estate.setProvince(newEstate.getProvince());
+                estate.setAddress(newEstate.getAddress());
+                estate.setSize(newEstate.getSize());
+                estate.setDescription(newEstate.getDescription());
+                estate.setApartmentNumber(newEstate.getApartmentNumber());
+                estate.setApartmentFloorNumber(newEstate.getApartmentFloorNumber());
+                estateService.saveApartment(estate);
+
+            }
+            else if(type.equals("parking")){
+
+                Parking estate = (Parking) estateService.getEstateById(estateId);
+                System.out.println("Parking : " + estate.getVehicleCapacity());
+                Parking newEstate = objectMapper.readValue(estateJson, Parking.class);
+                estate.setName(newEstate.getName());
+                estate.setProvince(newEstate.getProvince());
+                estate.setAddress(newEstate.getAddress());
+                estate.setSize(newEstate.getSize());
+                estate.setDescription(newEstate.getDescription());
+                estate.setVehicleCapacity(newEstate.getVehicleCapacity());
+                estate.setCarsAllowed(List.of(newEstate.getCarsAllowed().split(",")));
+                estateService.saveParking(estate);
+
+
+            }
+            else if(type.equals("land")){
+
+                Land estate = (Land) estateService.getEstateById(estateId);
+                System.out.println(estate.isCityHallElectricitySupport());
+                Land newEstate = objectMapper.readValue(estateJson, Land.class);
+                estate.setName(newEstate.getName());
+                estate.setProvince(newEstate.getProvince());
+                estate.setAddress(newEstate.getAddress());
+                estate.setSize(newEstate.getSize());
+                estate.setDescription(newEstate.getDescription());
+                estate.setCityHallElectricitySupport(newEstate.isCityHallElectricitySupport());
+                estateService.saveLand(estate);
+
+            }else if(type.equals("store")){
+
+                Store estate = (Store) estateService.getEstateById(estateId);
+                System.out.println(estate.getFridges());
+                Store newEstate = objectMapper.readValue(estateJson, Store.class);
+                estate.setName(newEstate.getName());
+                estate.setProvince(newEstate.getProvince());
+                estate.setAddress(newEstate.getAddress());
+                estate.setSize(newEstate.getSize());
+                estate.setDescription(newEstate.getDescription());
+                estate.setFridges(newEstate.getFridges());
+                estate.setStorageRoom(newEstate.isStorageRoom());
+                estateService.saveStore(estate);
+            }
+        }
+        catch(Exception e)
+        {
+            throw new ApiRequestException("Internal Error" , HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
     @GetMapping("parking/{id}")
     public ParkingResponse getParkingById(@PathVariable int id){
         return ParkingResponse.copyParking((Parking) estateService.getEstateById(id)) ;
