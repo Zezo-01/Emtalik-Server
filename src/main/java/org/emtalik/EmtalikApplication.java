@@ -3,17 +3,11 @@ package org.emtalik;
 
 import org.emtalik.Repositroy.*;
 import org.emtalik.model.*;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.web.reactive.WebFluxProperties;
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.data.jpa.repository.Modifying;
 
 
-import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;

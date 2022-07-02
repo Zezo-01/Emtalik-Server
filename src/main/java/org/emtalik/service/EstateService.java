@@ -69,6 +69,8 @@ public class EstateService {
     public void deleteEstateById(int id){
         estateRepo.deleteById(id);
     }
-    
+
+
+
 
 }

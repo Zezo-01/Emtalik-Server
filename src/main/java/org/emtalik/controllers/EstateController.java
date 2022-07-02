@@ -5,21 +5,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.emtalik.exception.ApiRequestException;
-import org.emtalik.model.Apartment;
-import org.emtalik.model.ApartmentResponse;
-import org.emtalik.model.Estate;
-import org.emtalik.model.EstateMainPicture;
-import org.emtalik.model.EstateMedia;
-import org.emtalik.model.EstateResponse;
-import org.emtalik.model.House;
-import org.emtalik.model.HouseResponse;
-import org.emtalik.model.Land;
-import org.emtalik.model.LandResponse;
-import org.emtalik.model.MediaResponse;
-import org.emtalik.model.Parking;
-import org.emtalik.model.ParkingResponse;
-import org.emtalik.model.Store;
-import org.emtalik.model.StoreResponse;
+import org.emtalik.model.*;
 import org.emtalik.service.AdminService;
 import org.emtalik.service.EstateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +33,8 @@ public class EstateController {
     public void deleteEstateById(int estateId){
         estateService.deleteEstateById(estateId);
     }
+
+
 
 
     @GetMapping(path = "media/{estateId}/{mediaId}")
