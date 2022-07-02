@@ -64,7 +64,7 @@ public class Estate {
     private Province province;
     @Column(length = 9)
     private String type;
-    @Column(length = 45)
+    @Column(length = 150)
     private String description;
     @Column(length = 3)
     private Double size;

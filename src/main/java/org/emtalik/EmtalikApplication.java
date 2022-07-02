@@ -185,6 +185,8 @@ public class EmtalikApplication  {
 
 
 		parkingRepo.save(sufyanStreetParking);
+        
+        
 
 
 
